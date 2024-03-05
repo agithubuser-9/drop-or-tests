@@ -7,6 +7,17 @@ import (
 	"strings"
 )
 
+// a very simple way to check what's happening
+func Test(message string, value *string) {
+
+	if value == nil {
+		fmt.Println(message)
+	} else {
+		fmt.Println(message, " at ", *value, "° time")
+	}
+
+}
+
 func GetUserSingleCommand() string {
 
 	reader := bufio.NewReader(os.Stdin)

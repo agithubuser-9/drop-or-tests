@@ -10,9 +10,9 @@ func main() {
 	goodResult := CheckResult(commandCharacters)
 
 	if goodResult {
-		fmt.Println("Success!")
+		fmt.Println("Accepted!")
 	} else {
-		fmt.Println("Fail!")
+		fmt.Println("Rejected!")
 	}
 
 }

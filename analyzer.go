@@ -1,5 +1,5 @@
 package main
-import "fmt"
+
 func gotReduced(stack *[]string, checkpointBackwardsIndex int) bool {
 
 	if DigitWasReduced(stack, checkpointBackwardsIndex) {
@@ -38,6 +38,8 @@ func goBackwardsToReduce(stack *[]string) {
 			goes back to top and tries to reduce again
 		*/
 		if gotReduced(stack, checkpointBackwards) {
+			str := string(checkpointBackwards)
+			Test("reduced", &str)
 			checkpointBackwards = topStack
 		}
 	}
@@ -47,12 +49,15 @@ func goBackwardsToReduce(stack *[]string) {
 func CheckResult(characters []string) bool {
 
 	var stack []string
-	fmt.Println(len(stack))
+
 	// if it were string instead of slice it would return Runes
 	for _, char := range characters {
-		// shift
+
+		Test("shift", nil)
 		stack = append(stack, char)
+
 		goBackwardsToReduce(&stack)
+
 	}
 
 	resultingStack := SliceOfCharactersToString(stack)
