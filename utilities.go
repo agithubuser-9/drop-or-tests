@@ -8,12 +8,14 @@ import (
 )
 
 // a very simple way to check what's happening
-func Test(message string, value *string) {
+func Test(message string, optionalValue *string) {
 
-	if value == nil {
-		fmt.Println(message)
+	hasOptionalValue := optionalValue != nil
+
+	if hasOptionalValue {
+		fmt.Println(message, " at ", *optionalValue, "° time")
 	} else {
-		fmt.Println(message, " at ", *value, "° time")
+		fmt.Println(message)
 	}
 
 }
@@ -21,14 +23,16 @@ func Test(message string, value *string) {
 func GetUserSingleCommand() string {
 
 	reader := bufio.NewReader(os.Stdin)
-
 	fmt.Println("give me a command, mr. user:")
 
 	line, err := reader.ReadString('\n')
+
 	if err != nil {
 		fmt.Println("Error reading input:", err)
 		return ""
 	}
+
+	line = strings.TrimSuffix(line, "\r\n")
 
 	return line
 

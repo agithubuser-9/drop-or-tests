@@ -34,31 +34,23 @@ func byteIsDigit(byteCharacter byte) bool {
 
 func DigitWasReduced(slice *[]string, checkpointBackwardsIndex int) bool {
 
-	topElementIndex := len(*slice) - 1
-	isSingleElement := checkpointBackwardsIndex == topElementIndex
+	topStackIndex := len(*slice) - 1
 
-	/*
-	  based on the class' subject logic, if
-	  backward's stack range is larger than
-	  1, it has already been checked and it's only
-	  need to do it oncesince there is no combination
-	  between a number and other grammar categories
-	   at least before the number had been replaced.
-	*/
-	if isSingleElement && gotDigit {
+	if checkpointBackwardsIndex < topStackIndex {
+		/*
+			if there are digits before top, they had
+			already been replaced, they were on top
+		*/
 		return false
 	}
 
 	topByteSlice := getTopByteStack(slice)
 	topByteSliceIsDigit := byteIsDigit(topByteSlice)
 
-	// if it got there, it's another detected number
+	// number followed by another
 	if topByteSliceIsDigit && gotDigit {
-		/*
-			the respective grammar value is already
-			in place, the number just get "poped"
-		*/
-		PopStringsFromSlice(slice, topElementIndex)
+		// just "Expr" for the whole sequence
+		PopStringsFromSlice(slice, topStackIndex)
 		return true
 	}
 
@@ -67,17 +59,14 @@ func DigitWasReduced(slice *[]string, checkpointBackwardsIndex int) bool {
 
 		gotDigit = true
 
-		PopStringsFromSlice(slice, topElementIndex)
-		PushCharactersStringIntoSlice(slice, "num")
+		PopStringsFromSlice(slice, topStackIndex)
+		PushCharactersStringIntoSlice(slice, "Expr")
 
-		return true
+		return gotDigit
 	}
 
-	// if it got there, any number was detected
-	if gotDigit {
-		gotDigit = false
-	}
-
-	return true
+	// if it got here, it's not a number
+	gotDigit = false
+	return gotDigit
 
 }
